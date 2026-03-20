@@ -19,46 +19,6 @@ class TransactionsScreen extends ConsumerWidget {
         child: Column(
           crossAxisAlignment: .start,
           children: [
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 15.0),
-              child: Row(
-                mainAxisAlignment: .end,
-                children: [
-                  IconButton(
-                    onPressed: () {
-                      showModalBottomSheet(
-                        isScrollControlled: true,
-                        useSafeArea: true,
-                        enableDrag: true,
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadiusGeometry.circular(10),
-                        ),
-                        context: context,
-                        builder: (context) {
-                          return const AddTransactionBottomSheet();
-                        },
-                      );
-                    },
-                    icon: const Icon(
-                      Icons.add_circle,
-                      color: Colors.blue,
-                      size: 35,
-                    ),
-                  ),
-                ],
-              ),
-            ),
-            Padding(
-              padding: const EdgeInsets.only(left: 15.0),
-              child: Text(
-                'Transactions',
-                style: GoogleFonts.poppins(
-                  color: Colors.black,
-                  fontWeight: FontWeight.bold,
-                  fontSize: 30,
-                ),
-              ),
-            ),
             const SizedBox(
               height: 5,
             ),

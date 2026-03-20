@@ -29,17 +29,6 @@ class _DashboardScreenState extends ConsumerState<DashboardScreen> {
           child: Column(
             crossAxisAlignment: .start,
             children: [
-              Padding(
-                padding: const EdgeInsets.only(left: 15.0, top: 35),
-                child: Text(
-                  'Dashboard',
-                  style: GoogleFonts.poppins(
-                    color: Colors.black,
-                    fontWeight: FontWeight.bold,
-                    fontSize: 30,
-                  ),
-                ),
-              ),
               const SizedBox(
                 height: 20,
               ),

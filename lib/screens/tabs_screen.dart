@@ -1,6 +1,7 @@
 import 'package:budget_tracker/screens/dashboard_screen.dart';
 import 'package:budget_tracker/screens/settings_screen.dart';
 import 'package:budget_tracker/screens/transactions_screen.dart';
+import 'package:budget_tracker/widgets/side_drawer.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
@@ -17,7 +18,50 @@ class _TabsScreenState extends State<TabsScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: _screenIndex == 0 ? TransactionsScreen() : _screenIndex == 1 ? DashboardScreen() : SettingsScreen(),
+      appBar: AppBar(
+        title: Text(
+          _screenIndex == 0
+              ? 'Transactions'
+              : _screenIndex == 1
+              ? 'Dashboard'
+              : 'Settings',
+          style: GoogleFonts.poppins(
+            color: Colors.black,
+            fontWeight: FontWeight.bold,
+            fontSize: 30,
+          ),
+        ),
+        actions: [
+          if (_screenIndex == 0)
+            IconButton(
+              onPressed: () {
+                showModalBottomSheet(
+                  isScrollControlled: true,
+                  useSafeArea: true,
+                  enableDrag: true,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadiusGeometry.circular(10),
+                  ),
+                  context: context,
+                  builder: (context) {
+                    return const AddTransactionBottomSheet();
+                  },
+                );
+              },
+              icon: const Icon(
+                Icons.add_circle,
+                color: Colors.blue,
+                size: 35,
+              ),
+            ),
+        ],
+      ),
+      drawer: const SideDrawer(),
+      body: _screenIndex == 0
+          ? const TransactionsScreen()
+          : _screenIndex == 1
+          ? const DashboardScreen()
+          : const SettingsScreen(),
       bottomNavigationBar: BottomAppBar(
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -90,7 +134,7 @@ class _TabsScreenState extends State<TabsScreen> {
                   Text(
                     'Settings',
                     style: GoogleFonts.poppins(
-                      color:_screenIndex == 2 ? Colors.blue : Colors.grey,
+                      color: _screenIndex == 2 ? Colors.blue : Colors.grey,
                       fontSize: 12,
                     ),
                   ),
