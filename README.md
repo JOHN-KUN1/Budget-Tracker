@@ -4,11 +4,11 @@ A powerful Flutter mobile app for tracking transactions, managing finances, and 
 
 ## Features
 
-- 📊 **Dashboard**: View your income, expenses, and current balance at a glance
-- 💳 **Transaction Tracking**: Keep track of all your financial transactions
-- 🤖 **AI Analysis**: Upload your bank statements and get intelligent financial insights powered by AI
-- ⚙️ **Settings**: Customize your preferences
-- 📱 **Clean UI**: Intuitive and user-friendly interface with Google Fonts styling
+- **Dashboard**: View your income, expenses, and current balance at a glance
+- **Transaction Tracking**: Keep track of all your financial transactions
+- **AI Analysis**: Upload your bank statements and get intelligent financial insights powered by AI
+- **Settings**: Customize your preferences
+- **Clean UI**: Intuitive and user-friendly interface with Google Fonts styling
 
 ## Tech Stack
 
