@@ -1,4 +1,5 @@
 import 'package:budget_tracker/view_models/repository_provider.dart';
+import 'package:budget_tracker/view_models/theme_provider.dart';
 import 'package:doc_text_extractor/doc_text_extractor.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -28,12 +29,13 @@ class _AiAnalysisScreenState extends ConsumerState<AiAnalysisScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final isDark = ref.watch(themeProvider) == ThemeData.dark(useMaterial3: true) ? true : false;
     return Scaffold(
       appBar: AppBar(
         title: Text(
           'AI Analysis',
           style: GoogleFonts.poppins(
-            color: Colors.black,
+            color: isDark ? Colors.white : Colors.black,
             fontWeight: FontWeight.bold,
             fontSize: 30,
           ),
