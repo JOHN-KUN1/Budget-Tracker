@@ -1,14 +1,16 @@
+import 'package:budget_tracker/view_models/theme_provider.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:budget_tracker/models/transaction_model.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
 
-class TransactionWidget extends StatelessWidget {
+class TransactionWidget extends ConsumerWidget {
   final TransactionModel transactionModel;
   const TransactionWidget({super.key, required this.transactionModel});
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     Map<Category, IconData> categoryIcons = {
       Category.salary: Icons.monetization_on,
       Category.investment: Icons.trending_up,
@@ -16,12 +18,13 @@ class TransactionWidget extends StatelessWidget {
       Category.refund: Icons.restart_alt,
       Category.other: Icons.category,
     };
+    final isDark = ref.watch(themeProvider) == ThemeData.dark(useMaterial3: true) ? true : false;
     return Container(
       padding: EdgeInsets.all(15),
       width: double.infinity,
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(10),
-        color: Colors.white,
+        color: isDark ? Colors.black.withValues(alpha: 0.7) : Colors.white,
       ),
       child: Row(
         mainAxisAlignment: .spaceBetween,
@@ -48,15 +51,15 @@ class TransactionWidget extends StatelessWidget {
             mainAxisSize: .min,
             children: [
               Text(
-                transactionModel.title,
+                transactionModel.title.substring(0,1).toUpperCase() + transactionModel.title.substring(1),
                 style: GoogleFonts.poppins(
-                  color: Colors.black,
+                  color:isDark ? Colors.white : Colors.black,
                   fontSize: 18,
                   fontWeight: FontWeight.w700,
                 ),
               ),
               Text(
-                transactionModel.category.name,
+                transactionModel.category.name.substring(0,1).toUpperCase() + transactionModel.category.name.substring(1),
                 style: GoogleFonts.poppins(
                   color: Colors.grey,
                   fontSize: 16,

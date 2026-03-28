@@ -1,6 +1,7 @@
 import 'package:budget_tracker/view_models/balance_provider.dart';
 import 'package:budget_tracker/view_models/expense_provider.dart';
 import 'package:budget_tracker/view_models/income_provider.dart';
+import 'package:budget_tracker/view_models/theme_provider.dart';
 import 'package:budget_tracker/view_models/transaction_provider.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:budget_tracker/widgets/transaction_widget.dart';
@@ -26,354 +27,350 @@ class _DashboardScreenState extends ConsumerState<DashboardScreen> {
     final balance = ref.watch(balanceProvider);
     final percent = (expense / income).toStringAsFixed(1);
     final doublePercent = double.tryParse(percent);
-    return Scaffold(
-      body: SafeArea(
-        child: Center(
-          child: Column(
-            crossAxisAlignment: .start,
-            children: [
-              const SizedBox(
-                height: 20,
-              ),
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 20.0),
-                child: Row(
-                  mainAxisAlignment: .spaceBetween,
-                  children: [
-                    Container(
-                      //width: double.infinity,
-                      padding: const EdgeInsets.all(10),
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(10),
-                        color: Colors.green[50],
-                      ),
-                      child: Column(
-                        crossAxisAlignment: .start,
-                        mainAxisSize: .min,
-                        children: [
-                          Row(
-                            mainAxisAlignment: .spaceBetween,
-                            children: [
-                              Text(
-                                'Income',
-                                style: GoogleFonts.poppins(
-                                  color: Colors.grey,
-                                  fontWeight: FontWeight.w600,
-                                  fontSize: 16,
-                                ),
-                              ),
-                              const SizedBox(
-                                width: 40,
-                              ),
-                              const Icon(
-                                Icons.expand_circle_down_sharp,
-                                color: Colors.green,
-                              ),
-                            ],
-                          ),
-                          const SizedBox(
-                            height: 5,
-                          ),
-                          Text(
-                            '\$$income',
-                            style: GoogleFonts.poppins(
-                              color: Colors.black,
-                              fontWeight: FontWeight.bold,
-                              fontSize: 18,
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                    //const Flexible(child: Spacer()),
-                    Container(
-                      //width: double.infinity,
-                      padding: const EdgeInsets.all(10),
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(10),
-                        color: Colors.red[50],
-                      ),
-                      child: Column(
-                        crossAxisAlignment: .start,
-                        mainAxisSize: .min,
-                        children: [
-                          Row(
-                            mainAxisAlignment: .spaceBetween,
-                            children: [
-                              Text(
-                                'Expenses',
-                                style: GoogleFonts.poppins(
-                                  color: Colors.grey,
-                                  fontWeight: FontWeight.w600,
-                                  fontSize: 16,
-                                ),
-                              ),
-                              const SizedBox(
-                                width: 40,
-                              ),
-                              const Icon(
-                                Icons.expand_circle_down_sharp,
-                                color: Colors.red,
-                              ),
-                            ],
-                          ),
-                          const SizedBox(
-                            height: 5,
-                          ),
-                          Text(
-                            '\$$expense',
-                            style: GoogleFonts.poppins(
-                              color: Colors.black,
-                              fontWeight: FontWeight.bold,
-                              fontSize: 18,
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-              const SizedBox(
-                height: 20,
-              ),
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 15.0),
-                child: Container(
-                  padding: const EdgeInsets.all(15),
+    final isDark =
+        ref.watch(themeProvider) == ThemeData.dark(useMaterial3: true)
+        ? true
+        : false;
+    return Center(
+      child: Column(
+        crossAxisAlignment: .start,
+        children: [
+          const SizedBox(
+            height: 20,
+          ),
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 20.0),
+            child: Row(
+              mainAxisAlignment: .spaceBetween,
+              children: [
+                Container(
+                  //width: double.infinity,
+                  padding: const EdgeInsets.all(10),
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(10),
-                    color: Colors.blue[50],
+                    color: Colors.green[50],
                   ),
                   child: Column(
-                    crossAxisAlignment: .center,
+                    crossAxisAlignment: .start,
+                    mainAxisSize: .min,
                     children: [
                       Row(
+                        mainAxisAlignment: .spaceBetween,
                         children: [
                           Text(
-                            'Current Balance',
+                            'Income',
                             style: GoogleFonts.poppins(
                               color: Colors.grey,
                               fontWeight: FontWeight.w600,
                               fontSize: 16,
                             ),
                           ),
-                          const Expanded(
-                            child: SizedBox(
-                              width: double.infinity,
-                            ),
+                          const SizedBox(
+                            width: 40,
                           ),
                           const Icon(
-                            Icons.money,
-                            color: Colors.blue,
+                            Icons.expand_circle_down_sharp,
+                            color: Colors.green,
                           ),
                         ],
                       ),
                       const SizedBox(
-                        height: 10,
+                        height: 5,
                       ),
                       Text(
-                        '${ref.watch(balanceProvider) < 0 ? '-\$' : '+\$'}${balance.abs()}',
+                        '\$$income',
                         style: GoogleFonts.poppins(
-                          color: Colors.blue,
-                          fontSize: 24,
+                          color: Colors.black,
                           fontWeight: FontWeight.bold,
+                          fontSize: 18,
                         ),
                       ),
-                      const SizedBox(
-                        height: 10,
-                      ),
-                      LinearPercentIndicator(
-                        barRadius: const Radius.circular(20),
-                        backgroundColor: Colors.grey,
-                        progressColor: expense >= income
-                            ? Colors.red
-                            : Colors.blue,
-                        lineHeight: 10.0,
-                        percent: expense >= income
-                            ? 1.0
-                            : income == 0
-                            ? 0.0
-                            : doublePercent!,
-                      ),
-                      const SizedBox(
-                        height: 10,
-                      ),
+                    ],
+                  ),
+                ),
+                //const Flexible(child: Spacer()),
+                Container(
+                  //width: double.infinity,
+                  padding: const EdgeInsets.all(10),
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(10),
+                    color: Colors.red[50],
+                  ),
+                  child: Column(
+                    crossAxisAlignment: .start,
+                    mainAxisSize: .min,
+                    children: [
                       Row(
-                        mainAxisAlignment: .start,
+                        mainAxisAlignment: .spaceBetween,
                         children: [
                           Text(
-                            '${(expense >= income) ? '100' : (doublePercent! * 100).floor()}% of income used',
+                            'Expenses',
                             style: GoogleFonts.poppins(
                               color: Colors.grey,
+                              fontWeight: FontWeight.w600,
+                              fontSize: 16,
                             ),
+                          ),
+                          const SizedBox(
+                            width: 40,
+                          ),
+                          const Icon(
+                            Icons.expand_circle_down_sharp,
+                            color: Colors.red,
                           ),
                         ],
                       ),
-                    ],
-                  ),
-                ),
-              ),
-              const SizedBox(
-                height: 20,
-              ),
-              Align(
-                alignment: .center,
-                child: Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: SegmentedButton(
-                    segments: [
-                      ButtonSegment(
-                        value: 'Week',
-                        label: Text(
-                          'Week',
-                          style: GoogleFonts.poppins(
-                            color: Colors.black,
-                            fontSize: 16,
-                          ),
-                        ),
+                      const SizedBox(
+                        height: 5,
                       ),
-                      ButtonSegment(
-                        value: 'Month',
-                        label: Text(
-                          'Month',
-                          style: GoogleFonts.poppins(
-                            color: Colors.black,
-                            fontSize: 16,
-                          ),
-                        ),
-                      ),
-                      ButtonSegment(
-                        value: 'Year',
-                        label: Text(
-                          'Year',
-                          style: GoogleFonts.poppins(
-                            color: Colors.black,
-                            fontSize: 16,
-                          ),
+                      Text(
+                        '\$$expense',
+                        style: GoogleFonts.poppins(
+                          color: Colors.black,
+                          fontWeight: FontWeight.bold,
+                          fontSize: 18,
                         ),
                       ),
                     ],
-                    selected: <String>{value},
-                    onSelectionChanged: (Set selection) {
-                      setState(() {
-                        value = selection.first.toString();
-                      });
-                    },
                   ),
                 ),
+              ],
+            ),
+          ),
+          const SizedBox(
+            height: 20,
+          ),
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 15.0),
+            child: Container(
+              padding: const EdgeInsets.all(15),
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(10),
+                color: Colors.blue[50],
               ),
-              const SizedBox(
-                height: 10,
+              child: Column(
+                crossAxisAlignment: .center,
+                children: [
+                  Row(
+                    children: [
+                      Text(
+                        'Current Balance',
+                        style: GoogleFonts.poppins(
+                          color: Colors.grey,
+                          fontWeight: FontWeight.w600,
+                          fontSize: 16,
+                        ),
+                      ),
+                      const Expanded(
+                        child: SizedBox(
+                          width: double.infinity,
+                        ),
+                      ),
+                      const Icon(
+                        Icons.money,
+                        color: Colors.blue,
+                      ),
+                    ],
+                  ),
+                  const SizedBox(
+                    height: 10,
+                  ),
+                  Text(
+                    '${ref.watch(balanceProvider) < 0 ? '-\$' : '+\$'}${balance.abs()}',
+                    style: GoogleFonts.poppins(
+                      color: Colors.blue,
+                      fontSize: 24,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                  const SizedBox(
+                    height: 10,
+                  ),
+                  LinearPercentIndicator(
+                    barRadius: const Radius.circular(20),
+                    backgroundColor: Colors.grey,
+                    progressColor: expense >= income ? Colors.red : Colors.blue,
+                    lineHeight: 10.0,
+                    percent: expense >= income
+                        ? 1.0
+                        : income == 0
+                        ? 0.0
+                        : doublePercent!,
+                  ),
+                  const SizedBox(
+                    height: 10,
+                  ),
+                  Row(
+                    mainAxisAlignment: .start,
+                    children: [
+                      Text(
+                        '${(expense >= income) ? '100' : (doublePercent! * 100).floor()}% of income used',
+                        style: GoogleFonts.poppins(
+                          color: Colors.grey,
+                        ),
+                      ),
+                    ],
+                  ),
+                ],
               ),
-              Padding(
-                padding: const EdgeInsets.only(left: 15.0),
-                child: Text(
-                  'Category Breakdown',
+            ),
+          ),
+          const SizedBox(
+            height: 20,
+          ),
+          Align(
+            alignment: .center,
+            child: Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: SegmentedButton(
+                segments: [
+                  ButtonSegment(
+                    value: 'Week',
+                    label: Text(
+                      'Week',
+                      style: GoogleFonts.poppins(
+                        color: isDark ? Colors.white : Colors.black,
+                        fontSize: 16,
+                      ),
+                    ),
+                  ),
+                  ButtonSegment(
+                    value: 'Month',
+                    label: Text(
+                      'Month',
+                      style: GoogleFonts.poppins(
+                        color: isDark ? Colors.white : Colors.black,
+                        fontSize: 16,
+                      ),
+                    ),
+                  ),
+                  ButtonSegment(
+                    value: 'Year',
+                    label: Text(
+                      'Year',
+                      style: GoogleFonts.poppins(
+                        color: isDark ? Colors.white : Colors.black,
+                        fontSize: 16,
+                      ),
+                    ),
+                  ),
+                ],
+                selected: <String>{value},
+                onSelectionChanged: (Set selection) {
+                  setState(() {
+                    value = selection.first.toString();
+                  });
+                },
+              ),
+            ),
+          ),
+          const SizedBox(
+            height: 10,
+          ),
+          Padding(
+            padding: const EdgeInsets.only(left: 15.0),
+            child: Text(
+              'Category Breakdown',
+              style: GoogleFonts.poppins(
+                color: isDark ? Colors.white : Colors.black,
+                fontWeight: FontWeight.w700,
+                fontSize: 16,
+              ),
+            ),
+          ),
+          const SizedBox(
+            height: 10,
+          ),
+          Padding(
+            padding: const EdgeInsetsGeometry.symmetric(horizontal: 15.0),
+            child: Container(
+              padding: const EdgeInsets.all(10),
+              width: double.infinity,
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(10),
+                color: isDark
+                    ? Colors.black.withValues(alpha: 0.7)
+                    : Colors.white,
+              ),
+              child: transactions.isEmpty
+                  ? Center(
+                      child: Text(
+                        'Add transaction to view most recent category',
+                        textAlign: TextAlign.center,
+                        style: GoogleFonts.poppins(
+                          color: isDark ? Colors.white : Colors.black,
+                        ),
+                      ),
+                    )
+                  : Row(
+                      children: [
+                        Text(
+                          transactions.last.category.name.substring(0,1).toUpperCase() + transactions.last.category.name.substring(1),
+                          style: GoogleFonts.poppins(
+                            color:isDark ? Colors.white : Colors.black,
+                            fontSize: 16,
+                          ),
+                        ),
+                        const SizedBox(
+                          width: 20,
+                        ),
+                        Expanded(
+                          child: LinearPercentIndicator(
+                            percent: 1.0,
+                            progressColor: Colors.red,
+                          ),
+                        ),
+                        Text(
+                          '\$${transactions.last.amount}',
+                          style: GoogleFonts.poppins(
+                            color: Colors.grey,
+                            fontSize: 16,
+                          ),
+                        ),
+                      ],
+                    ),
+            ),
+          ),
+          const SizedBox(
+            height: 10,
+          ),
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 15.0),
+            child: Row(
+              mainAxisAlignment: .start,
+              children: [
+                Text(
+                  'Recent Transactions',
                   style: GoogleFonts.poppins(
-                    color: Colors.black,
+                    color: isDark ? Colors.white : Colors.black,
                     fontWeight: FontWeight.w700,
                     fontSize: 16,
                   ),
                 ),
-              ),
-              const SizedBox(
-                height: 10,
-              ),
-              Padding(
-                padding: const EdgeInsetsGeometry.symmetric(horizontal: 15.0),
-                child: Container(
-                  padding: const EdgeInsets.all(10),
-                  width: double.infinity,
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(10),
-                    color: Colors.white,
-                  ),
-                  child: Row(
-                    children: [
-                      Text(
-                        'Shopping',
-                        style: GoogleFonts.poppins(
-                          color: Colors.black,
-                          fontSize: 16,
-                        ),
-                      ),
-                      const SizedBox(
-                        width: 20,
-                      ),
-                      const Expanded(
-                        child: ColoredBox(
-                          color: Colors.red,
-                          child: const SizedBox(
-                            width: double.infinity,
-                          ),
-                        ),
-                      ),
-                      Text(
-                        '\$1,245',
-                        style: GoogleFonts.poppins(
-                          color: Colors.grey,
-                          fontSize: 16,
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-              ),
-              const SizedBox(
-                height: 10,
-              ),
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 15.0),
-                child: Row(
-                  mainAxisAlignment: .spaceBetween,
-                  children: [
-                    Text(
-                      'Recent Transactions',
-                      style: GoogleFonts.poppins(
-                        color: Colors.black,
-                        fontWeight: FontWeight.w700,
-                        fontSize: 16,
-                      ),
-                    ),
-                    TextButton(
-                      onPressed: () {
-
-                      },
-                      child: Text(
-                        'See All',
-                        style: GoogleFonts.poppins(
-                          color: Colors.blue,
-                          fontSize: 16,
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-              const SizedBox(
-                height: 5,
-              ),
-              Expanded(
-                child: ListView.builder(
-                  itemCount: transactions.length,
-                  itemBuilder: (context, index) {
-                    final transaction = transactions[index];
-                    return Padding(
-                      padding: const EdgeInsets.symmetric(
-                        horizontal: 15,
-                        vertical: 5,
-                      ),
-                      child: TransactionWidget(
-                        transactionModel: transaction,
-                      ),
-                    );
-                  },
-                ),
-              ),
-            ],
+              ],
+            ),
           ),
-        ),
+          const SizedBox(
+            height: 5,
+          ),
+          Expanded(
+            child: ListView.builder(
+              itemCount: transactions.length,
+              itemBuilder: (context, index) {
+                final transaction = transactions[index];
+                return Padding(
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 15,
+                    vertical: 5,
+                  ),
+                  child: TransactionWidget(
+                    transactionModel: transaction,
+                  ),
+                );
+              },
+            ),
+          ),
+        ],
       ),
     );
   }

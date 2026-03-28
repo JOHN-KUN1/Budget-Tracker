@@ -1,14 +1,16 @@
+import 'package:budget_tracker/view_models/theme_provider.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:budget_tracker/screens/ai_analysis_screen.dart';
 import 'package:budget_tracker/services/get_it_service.dart';
 import 'package:budget_tracker/services/navigation_service.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-class SideDrawer extends StatelessWidget {
+class SideDrawer extends ConsumerWidget {
   const SideDrawer({super.key});
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     return Drawer(
       child: ListView(
         children: [
@@ -28,10 +30,17 @@ class SideDrawer extends StatelessWidget {
               getIt<NavigationService>().navigate(const AiAnalysisScreen());
             },
             leading: const Icon(Icons.bar_chart),
-            title: Text('Preview AI Insights',style: GoogleFonts.poppins(
-              color: Colors.black
-            ),),
-          )
+            title: Text(
+              'Preview AI Insights',
+              style: GoogleFonts.poppins(
+                color:
+                    ref.watch(themeProvider) ==
+                        ThemeData.dark(useMaterial3: true)
+                    ? Colors.white
+                    : Colors.black,
+              ),
+            ),
+          ),
         ],
       ),
     );

@@ -1,3 +1,5 @@
+import 'package:budget_tracker/view_models/theme_provider.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:budget_tracker/screens/dashboard_screen.dart';
 import 'package:budget_tracker/screens/settings_screen.dart';
 import 'package:budget_tracker/screens/transactions_screen.dart';
@@ -5,20 +7,22 @@ import 'package:budget_tracker/widgets/side_drawer.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-class TabsScreen extends StatefulWidget {
+class TabsScreen extends ConsumerStatefulWidget {
   const TabsScreen({super.key});
 
   @override
-  State<TabsScreen> createState() => _TabsScreenState();
+  ConsumerState<TabsScreen> createState() => _TabsScreenState();
 }
 
-class _TabsScreenState extends State<TabsScreen> {
+class _TabsScreenState extends ConsumerState<TabsScreen> {
   int _screenIndex = 0;
 
   @override
   Widget build(BuildContext context) {
+    final isDark = ref.watch(themeProvider) == ThemeData.dark() ? true : false; 
     return Scaffold(
       appBar: AppBar(
+        backgroundColor: Colors.blue,
         title: Text(
           _screenIndex == 0
               ? 'Transactions'
@@ -26,7 +30,7 @@ class _TabsScreenState extends State<TabsScreen> {
               ? 'Dashboard'
               : 'Settings',
           style: GoogleFonts.poppins(
-            color: Colors.black,
+            color: isDark ? Colors.white : Colors.black,
             fontWeight: FontWeight.bold,
             fontSize: 30,
           ),
@@ -48,9 +52,9 @@ class _TabsScreenState extends State<TabsScreen> {
                   },
                 );
               },
-              icon: const Icon(
-                Icons.add_circle,
-                color: Colors.blue,
+              icon: Icon(
+                Icons.add_circle_outlined,
+                color: Colors.white,
                 size: 35,
               ),
             ),

@@ -1,4 +1,5 @@
 import 'package:budget_tracker/models/transaction_model.dart';
+import 'package:budget_tracker/view_models/theme_provider.dart';
 import 'package:budget_tracker/view_models/transaction_provider.dart';
 import 'package:budget_tracker/widgets/transaction_widget.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -22,7 +23,7 @@ class TransactionsScreen extends ConsumerWidget {
               height: 5,
             ),
             Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 15.0),
+              padding: const EdgeInsets.symmetric(horizontal: 15.0, vertical: 10),
               child: SearchBar(
                 shape: WidgetStatePropertyAll<RoundedRectangleBorder>(
                   RoundedRectangleBorder(
@@ -134,6 +135,7 @@ class _AddTransactionBottomSheetState
 
   @override
   Widget build(BuildContext context) {
+    final isDark = ref.watch(themeProvider) == ThemeData.dark(useMaterial3: true) ? true : false;
     return Column(
       crossAxisAlignment: .start,
       children: [
@@ -212,7 +214,7 @@ class _AddTransactionBottomSheetState
             style: GoogleFonts.poppins(
               fontWeight: FontWeight.bold,
               fontSize: 30,
-              color: Colors.black,
+              color: isDark ? Colors.white : Colors.black,
             ),
           ),
         ),
@@ -227,7 +229,7 @@ class _AddTransactionBottomSheetState
               Container(
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(10),
-                  color: Colors.white,
+                  color: isDark ? Colors.black.withValues(alpha: 0.7) : Colors.white,
                 ),
                 child: Padding(
                   padding: const EdgeInsets.all(15.0),
@@ -238,7 +240,7 @@ class _AddTransactionBottomSheetState
                         label: Text(
                           'Income',
                           style: GoogleFonts.poppins(
-                            color: Colors.black,
+                            color: isDark ? Colors.white : Colors.black,
                             fontSize: 16,
                           ),
                         ),
@@ -248,7 +250,7 @@ class _AddTransactionBottomSheetState
                         label: Text(
                           'Expense',
                           style: GoogleFonts.poppins(
-                            color: Colors.black,
+                            color: isDark ? Colors.white : Colors.black,
                             fontSize: 16,
                           ),
                         ),
@@ -270,7 +272,7 @@ class _AddTransactionBottomSheetState
           height: 30,
         ),
         Padding(
-          padding: const EdgeInsets.only(left: 15.0),
+          padding: const EdgeInsets.only(left: 15.0, bottom: 5),
           child: Text(
             'DETIALS',
             style: GoogleFonts.poppins(color: Colors.grey, fontSize: 16),
@@ -281,7 +283,7 @@ class _AddTransactionBottomSheetState
           child: Container(
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(10),
-              color: Colors.white,
+              color:isDark ? Colors.black.withValues(alpha: 0.7) : Colors.white,
             ),
             child: Padding(
               padding: const EdgeInsets.all(15.0),
@@ -314,7 +316,7 @@ class _AddTransactionBottomSheetState
                         Text(
                           'Date',
                           style: GoogleFonts.poppins(
-                            color: Colors.black,
+                            color: isDark ? Colors.white :  Colors.black,
                             fontSize: 16,
                             fontWeight: FontWeight.w600,
                           ),
@@ -379,7 +381,7 @@ class _AddTransactionBottomSheetState
           height: 30,
         ),
         Padding(
-          padding: const EdgeInsets.only(left: 15.0),
+          padding: const EdgeInsets.only(left: 15.0, bottom: 5),
           child: Text(
             'CATEGORY',
             style: GoogleFonts.poppins(color: Colors.grey, fontSize: 16),
@@ -388,21 +390,19 @@ class _AddTransactionBottomSheetState
         Padding(
           padding: const EdgeInsetsGeometry.symmetric(horizontal: 15),
           child: Container(
+            padding: const EdgeInsets.all(4),
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(10),
-              color: Colors.white,
+              color: isDark ? Colors.black.withValues(alpha: 0.7) : Colors.white,
             ),
             child: Row(
               children: [
-                Padding(
-                  padding: const EdgeInsets.only(left: 5.0),
-                  child: Text(
-                    'Category',
-                    style: GoogleFonts.poppins(
-                      fontSize: 16,
-                      color: Colors.black,
-                      fontWeight: FontWeight.w600,
-                    ),
+                Text(
+                  'Category',
+                  style: GoogleFonts.poppins(
+                    fontSize: 16,
+                    color:isDark ? Colors.white : Colors.black,
+                    fontWeight: FontWeight.w600,
                   ),
                 ),
                 const Expanded(
@@ -427,6 +427,9 @@ class _AddTransactionBottomSheetState
                       DropdownMenuItem(
                         value: cat,
                         child: Text(
+                          style: GoogleFonts.poppins(
+                            color: isDark ? Colors.white : Colors.black
+                          ),
                           cat.name.substring(0, 1).toUpperCase() +
                               cat.name.substring(1),
                         ),
@@ -446,7 +449,7 @@ class _AddTransactionBottomSheetState
           height: 30,
         ),
         Padding(
-          padding: const EdgeInsets.only(left: 15.0),
+          padding: const EdgeInsets.only(left: 15.0, bottom: 5),
           child: Text(
             'NOTES',
             style: GoogleFonts.poppins(color: Colors.grey, fontSize: 16),
@@ -460,7 +463,7 @@ class _AddTransactionBottomSheetState
               width: double.infinity,
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(10),
-                color: Colors.white,
+                color: isDark ? Colors.black.withValues(alpha: 0.7) : Colors.white,
               ),
               child: TextField(
                 controller: _notesController,
