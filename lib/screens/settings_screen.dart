@@ -1,8 +1,9 @@
-import 'package:budget_tracker/view_models/theme_provider.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:settings_ui/settings_ui.dart';
+
+import '../view_models/theme/theme_provider.dart';
 
 class SettingsScreen extends ConsumerStatefulWidget {
   const SettingsScreen({super.key});

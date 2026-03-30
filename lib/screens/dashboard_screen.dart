@@ -1,13 +1,15 @@
-import 'package:budget_tracker/view_models/balance_provider.dart';
-import 'package:budget_tracker/view_models/expense_provider.dart';
-import 'package:budget_tracker/view_models/income_provider.dart';
-import 'package:budget_tracker/view_models/theme_provider.dart';
-import 'package:budget_tracker/view_models/transaction_provider.dart';
+
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:budget_tracker/widgets/transaction_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:percent_indicator/flutter_percent_indicator.dart';
+
+import '../view_models/balance/balance_provider.dart';
+import '../view_models/expense/expense_provider.dart';
+import '../view_models/income/income_provider.dart';
+import '../view_models/theme/theme_provider.dart';
+import '../view_models/transaction/transaction_provider.dart';
 
 class DashboardScreen extends ConsumerStatefulWidget {
   const DashboardScreen({super.key});

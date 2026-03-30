@@ -1,10 +1,11 @@
-import 'package:budget_tracker/view_models/theme_provider.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:budget_tracker/screens/ai_analysis_screen.dart';
 import 'package:budget_tracker/services/get_it_service.dart';
 import 'package:budget_tracker/services/navigation_service.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+
+import '../view_models/theme/theme_provider.dart';
 
 class SideDrawer extends ConsumerWidget {
   const SideDrawer({super.key});

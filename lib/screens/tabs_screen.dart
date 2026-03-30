@@ -1,4 +1,3 @@
-import 'package:budget_tracker/view_models/theme_provider.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:budget_tracker/screens/dashboard_screen.dart';
 import 'package:budget_tracker/screens/settings_screen.dart';
@@ -6,6 +5,8 @@ import 'package:budget_tracker/screens/transactions_screen.dart';
 import 'package:budget_tracker/widgets/side_drawer.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+
+import '../view_models/theme/theme_provider.dart';
 
 class TabsScreen extends ConsumerStatefulWidget {
   const TabsScreen({super.key});

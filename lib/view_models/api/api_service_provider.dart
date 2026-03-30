@@ -1,7 +1,7 @@
-import 'package:budget_tracker/view_models/dio_provider.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
-import '../services/api_service.dart';
+import '../../services/api_service.dart';
+import '../dio/dio_provider.dart';
 
 part 'api_service_provider.g.dart';
 

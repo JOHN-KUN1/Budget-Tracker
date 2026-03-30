@@ -1,6 +1,7 @@
 import 'package:budget_tracker/models/transaction_model.dart';
-import 'package:budget_tracker/view_models/transaction_provider.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
+
+import '../transaction/transaction_provider.dart';
 
 part 'income_provider.g.dart';
 

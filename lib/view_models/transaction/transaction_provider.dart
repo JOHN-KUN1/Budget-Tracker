@@ -1,8 +1,9 @@
 import 'dart:convert';
 
 import 'package:budget_tracker/models/transaction_model.dart';
-import 'package:budget_tracker/view_models/shared_preferences_provider.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
+
+import '../shared_pref/shared_preferences_provider.dart';
 
 part 'transaction_provider.g.dart';
 

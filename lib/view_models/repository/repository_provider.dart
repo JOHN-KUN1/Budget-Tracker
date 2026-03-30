@@ -1,7 +1,8 @@
-import 'package:budget_tracker/view_models/api_service_provider.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
-import '../repositories/ai_repository.dart';
+import '../../repositories/ai_repository.dart';
+import '../api/api_service_provider.dart';
+
 
 part 'repository_provider.g.dart';
 

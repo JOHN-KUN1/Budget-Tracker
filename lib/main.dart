@@ -1,8 +1,8 @@
 import 'package:budget_tracker/screens/tabs_screen.dart';
 import 'package:budget_tracker/services/get_it_service.dart';
 import 'package:budget_tracker/services/navigation_service.dart';
-import 'package:budget_tracker/view_models/shared_preferences_provider.dart';
-import 'package:budget_tracker/view_models/theme_provider.dart';
+import 'package:budget_tracker/view_models/shared_pref/shared_preferences_provider.dart';
+import 'package:budget_tracker/view_models/theme/theme_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';

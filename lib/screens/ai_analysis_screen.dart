@@ -1,5 +1,4 @@
-import 'package:budget_tracker/view_models/repository_provider.dart';
-import 'package:budget_tracker/view_models/theme_provider.dart';
+
 import 'package:doc_text_extractor/doc_text_extractor.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -8,6 +7,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_markdown/flutter_markdown.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:permission_handler/permission_handler.dart';
+
+import '../view_models/repository/repository_provider.dart';
+import '../view_models/theme/theme_provider.dart';
 
 class AiAnalysisScreen extends ConsumerStatefulWidget {
   const AiAnalysisScreen({super.key});

@@ -1,6 +1,6 @@
 import 'package:budget_tracker/models/transaction_model.dart';
-import 'package:budget_tracker/view_models/theme_provider.dart';
-import 'package:budget_tracker/view_models/transaction_provider.dart';
+import 'package:budget_tracker/view_models/filtered_transactions/filtered_transactions_provider.dart';
+import 'package:budget_tracker/view_models/search/search_provider.dart';
 import 'package:budget_tracker/widgets/transaction_widget.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter/material.dart';
@@ -8,12 +8,15 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
 import 'package:string_validator/string_validator.dart';
 
+import '../view_models/theme/theme_provider.dart';
+import '../view_models/transaction/transaction_provider.dart';
+
 class TransactionsScreen extends ConsumerWidget {
   const TransactionsScreen({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final transaction = ref.watch(transactionProvider);
+    final transaction = ref.watch(filteredTransactionsProvider);
     return SafeArea(
       child: Center(
         child: Column(
@@ -25,6 +28,9 @@ class TransactionsScreen extends ConsumerWidget {
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 15.0, vertical: 10),
               child: SearchBar(
+                onChanged: (value) {
+                  ref.read(searchProvider.notifier).changeSearchTerm(value);
+                },
                 shape: WidgetStatePropertyAll<RoundedRectangleBorder>(
                   RoundedRectangleBorder(
                     borderRadius: BorderRadiusGeometry.circular(10),
