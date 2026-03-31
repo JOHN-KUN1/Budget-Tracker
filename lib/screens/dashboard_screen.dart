@@ -307,7 +307,7 @@ class _DashboardScreenState extends ConsumerState<DashboardScreen> {
                   : Row(
                       children: [
                         Text(
-                          transactions.last.category.name.substring(0,1).toUpperCase() + transactions.last.category.name.substring(1),
+                          transactions.first.category.name.substring(0,1).toUpperCase() + transactions.first.category.name.substring(1),
                           style: GoogleFonts.poppins(
                             color:isDark ? Colors.white : Colors.black,
                             fontSize: 16,
