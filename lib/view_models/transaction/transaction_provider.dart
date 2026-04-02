@@ -41,10 +41,24 @@ class Transaction extends _$Transaction {
     await saveToDatabase();
   }
 
+  Future<void> updateTransaction(String id, String title, double amount, String note, Category category, TransactionType transactionType) async {
+    state = [
+      for (final item in state) if (item.id == id) item.copyWith(
+        title: title,
+        amount: amount,
+        note: note,
+        category: category,
+        transactionType: transactionType
+      ) else item
+    ];
+    await saveToDatabase();
+  }
+
   Future<void> saveToDatabase() async {
     final prefs = ref.watch(sharedPreferencesProvider);
     final transactions = state.map((elem) => jsonEncode(elem.toJson())).toList();
     await prefs.setStringList('allDbTransactions', transactions);
   }
+
 }
 

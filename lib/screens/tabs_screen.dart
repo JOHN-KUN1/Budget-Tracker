@@ -53,7 +53,7 @@ class _TabsScreenState extends ConsumerState<TabsScreen> {
                   },
                 );
               },
-              icon: Icon(
+              icon: const Icon(
                 Icons.add_circle_outlined,
                 color: Colors.white,
                 size: 35,

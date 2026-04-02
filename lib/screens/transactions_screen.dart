@@ -26,7 +26,10 @@ class TransactionsScreen extends ConsumerWidget {
               height: 5,
             ),
             Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 15.0, vertical: 10),
+              padding: const EdgeInsets.symmetric(
+                horizontal: 15.0,
+                vertical: 10,
+              ),
               child: SearchBar(
                 onChanged: (value) {
                   ref.read(searchProvider.notifier).changeSearchTerm(value);
@@ -90,11 +93,39 @@ class TransactionsScreen extends ConsumerWidget {
                         child: Dismissible(
                           direction: DismissDirection.horizontal,
                           key: ValueKey(transactionModel.id),
-                          onDismissed: (direction) async{
-                            await ref.read(transactionProvider.notifier).deleteTransaction(id: transactionModel.id);
+                          onDismissed: (direction) async {
+                            await ref
+                                .read(transactionProvider.notifier)
+                                .deleteTransaction(id: transactionModel.id);
                           },
-                          child: TransactionWidget(
-                            transactionModel: transactionModel,
+                          child: GestureDetector(
+                            onTap: () {
+                              showModalBottomSheet(
+                                isScrollControlled: true,
+                                useSafeArea: true,
+                                enableDrag: true,
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadiusGeometry.circular(
+                                    10,
+                                  ),
+                                ),
+                                context: context,
+                                builder: (context) {
+                                  return AddTransactionBottomSheet(
+                                    id: transactionModel.id,
+                                    title: transactionModel.title,
+                                    amount: transactionModel.amount.toString(),
+                                    notes: transactionModel.note,
+                                    category: transactionModel.category,
+                                    transactionType:
+                                        transactionModel.transactionType,
+                                  );
+                                },
+                              );
+                            },
+                            child: TransactionWidget(
+                              transactionModel: transactionModel,
+                            ),
                           ),
                         ),
                       );
@@ -110,7 +141,21 @@ class TransactionsScreen extends ConsumerWidget {
 }
 
 class AddTransactionBottomSheet extends ConsumerStatefulWidget {
-  const AddTransactionBottomSheet({super.key});
+  final String? id;
+  final String? title;
+  final String? amount;
+  final String? notes;
+  final Category? category;
+  final TransactionType? transactionType;
+  const AddTransactionBottomSheet({
+    super.key,
+    this.id,
+    this.title,
+    this.amount,
+    this.notes,
+    this.category,
+    this.transactionType,
+  });
 
   @override
   ConsumerState<AddTransactionBottomSheet> createState() =>
@@ -119,8 +164,8 @@ class AddTransactionBottomSheet extends ConsumerStatefulWidget {
 
 class _AddTransactionBottomSheetState
     extends ConsumerState<AddTransactionBottomSheet> {
-  TransactionType transactionType = TransactionType.income;
-  Category categoryValue = Category.gift;
+  late Category categoryValue;
+  late TransactionType transactionType;
   var now = DateTime.now();
 
   final TextEditingController _titleController = TextEditingController();
@@ -140,8 +185,22 @@ class _AddTransactionBottomSheetState
   }
 
   @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    _titleController.text = widget.title ?? '';
+    _amountController.text = widget.amount ?? '';
+    _notesController.text = widget.notes ?? '';
+    categoryValue = widget.category ?? Category.gift;
+    transactionType = widget.transactionType ?? TransactionType.income;
+  }
+
+  @override
   Widget build(BuildContext context) {
-    final isDark = ref.watch(themeProvider) == ThemeData.dark(useMaterial3: true) ? true : false;
+    final isDark =
+        ref.watch(themeProvider) == ThemeData.dark(useMaterial3: true)
+        ? true
+        : false;
     return Column(
       crossAxisAlignment: .start,
       children: [
@@ -172,34 +231,50 @@ class _AddTransactionBottomSheetState
                     });
                     return;
                   }
-                  if (!isAlpha(_titleController.text.trim())){
+                  if (!isAlpha(_titleController.text.trim())) {
                     setState(() {
                       titleError = true;
                     });
                     return;
                   }
-                  if (isAlpha(_amountController.text.trim()) || double.tryParse(_amountController.text.trim()) == null) {
+                  if (isAlpha(_amountController.text.trim()) ||
+                      double.tryParse(_amountController.text.trim()) == null) {
                     setState(() {
                       amountError = true;
                     });
                     return;
                   }
-                  ref
-                      .read(transactionProvider.notifier)
-                      .addTransactions(
-                        transactionType: transactionType,
-                        title: _titleController.text.trim(),
-                        amount: double.tryParse(_amountController.text.trim())!,
-                        date: now,
-                        category: categoryValue,
-                        note: _notesController.text.trim().isEmpty
-                            ? ''
-                            : _notesController.text.trim(),
-                      );
+                  widget.id != null
+                      ? ref
+                            .read(transactionProvider.notifier)
+                            .updateTransaction(
+                              widget.id!,
+                              _titleController.text.trim(),
+                              double.tryParse(_amountController.text.trim())!,
+                              _notesController.text.trim().isEmpty
+                                  ? ''
+                                  : _notesController.text.trim(),
+                              categoryValue,
+                              transactionType,
+                            )
+                      : ref
+                            .read(transactionProvider.notifier)
+                            .addTransactions(
+                              transactionType: transactionType,
+                              title: _titleController.text.trim(),
+                              amount: double.tryParse(
+                                _amountController.text.trim(),
+                              )!,
+                              date: now,
+                              category: categoryValue,
+                              note: _notesController.text.trim().isEmpty
+                                  ? ''
+                                  : _notesController.text.trim(),
+                            );
                   Navigator.pop(context);
                 },
                 child: Text(
-                  'Save',
+                  widget.id != null ? 'Update' : 'Save',
                   style: GoogleFonts.poppins(
                     color: Colors.grey,
                     fontSize: 16,
@@ -228,14 +303,18 @@ class _AddTransactionBottomSheetState
           height: 5,
         ),
         Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 15.0,),
+          padding: const EdgeInsets.symmetric(
+            horizontal: 15.0,
+          ),
           child: Row(
             mainAxisAlignment: .center,
             children: [
               Container(
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(10),
-                  color: isDark ? Colors.black.withValues(alpha: 0.7) : Colors.white,
+                  color: isDark
+                      ? Colors.black.withValues(alpha: 0.7)
+                      : Colors.white,
                 ),
                 child: Padding(
                   padding: const EdgeInsets.all(15.0),
@@ -289,7 +368,9 @@ class _AddTransactionBottomSheetState
           child: Container(
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(10),
-              color:isDark ? Colors.black.withValues(alpha: 0.7) : Colors.white,
+              color: isDark
+                  ? Colors.black.withValues(alpha: 0.7)
+                  : Colors.white,
             ),
             child: Padding(
               padding: const EdgeInsets.all(15.0),
@@ -300,7 +381,11 @@ class _AddTransactionBottomSheetState
                     controller: _titleController,
                     decoration: InputDecoration(
                       labelText: 'Title',
-                      errorText: titleError ? 'title must only contain alphabets' : error ? 'value cannot be empty' : null,
+                      errorText: titleError
+                          ? 'title must only contain alphabets'
+                          : error
+                          ? 'value cannot be empty'
+                          : null,
                     ),
                   ),
                   TextField(
@@ -322,7 +407,7 @@ class _AddTransactionBottomSheetState
                         Text(
                           'Date',
                           style: GoogleFonts.poppins(
-                            color: isDark ? Colors.white :  Colors.black,
+                            color: isDark ? Colors.white : Colors.black,
                             fontSize: 16,
                             fontWeight: FontWeight.w600,
                           ),
@@ -399,7 +484,9 @@ class _AddTransactionBottomSheetState
             padding: const EdgeInsets.all(4),
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(10),
-              color: isDark ? Colors.black.withValues(alpha: 0.7) : Colors.white,
+              color: isDark
+                  ? Colors.black.withValues(alpha: 0.7)
+                  : Colors.white,
             ),
             child: Row(
               children: [
@@ -407,7 +494,7 @@ class _AddTransactionBottomSheetState
                   'Category',
                   style: GoogleFonts.poppins(
                     fontSize: 16,
-                    color:isDark ? Colors.white : Colors.black,
+                    color: isDark ? Colors.white : Colors.black,
                     fontWeight: FontWeight.w600,
                   ),
                 ),
@@ -434,7 +521,7 @@ class _AddTransactionBottomSheetState
                         value: cat,
                         child: Text(
                           style: GoogleFonts.poppins(
-                            color: isDark ? Colors.white : Colors.black
+                            color: isDark ? Colors.white : Colors.black,
                           ),
                           cat.name.substring(0, 1).toUpperCase() +
                               cat.name.substring(1),
@@ -469,7 +556,9 @@ class _AddTransactionBottomSheetState
               width: double.infinity,
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(10),
-                color: isDark ? Colors.black.withValues(alpha: 0.7) : Colors.white,
+                color: isDark
+                    ? Colors.black.withValues(alpha: 0.7)
+                    : Colors.white,
               ),
               child: TextField(
                 controller: _notesController,
